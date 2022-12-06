@@ -1,5 +1,6 @@
 package com.example.demopadc
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 
@@ -8,17 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_first.*
 
 class FirstActivity: AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first)
 
         btnclickme.setOnClickListener {
 
-            Toast.makeText(this,"Toast Invoked",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this,"Toast Invoked",Toast.LENGTH_SHORT).show()
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
+
+
+
         }
     }
+
+
 
     override fun onStart() {
         super.onStart()
