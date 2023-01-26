@@ -3,15 +3,21 @@ package com.example.demopadc
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import kotlinx.android.synthetic.main.activity_first.*
 import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
     private val IMAGE_REQUEST_CODE=100
     val IE_DATA_TO_RETURN= "DATA TO RETURN"
+    
 
     companion object{
         private val IE_DATA_TO_SHOW = "data to show"
@@ -21,24 +27,29 @@ class SecondActivity : AppCompatActivity() {
         fun newIntent(context: Context,dataToShow: String):Intent{
             return Intent(context,SecondActivity::class.java).putExtra(IE_DATA_TO_SHOW,dataToShow)
 
+
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
-        Toast.makeText(this,"onCreate() invoked Second",Toast.LENGTH_SHORT).show()
-
+//        Toast.makeText(this,"onCreate() invoked Second",Toast.LENGTH_SHORT).show()
+        val dataMessage = intent.getStringExtra(IE_DATA_TO_SHOW)
+        tvMessage.text =dataMessage
+//        caller for image
         ivbtnselect.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type ="image/*"
             startActivityForResult(intent,IMAGE_REQUEST_CODE)
+
 
         }
         btnYoutube.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"))
             startActivity(intent)
         }
+
         btnback.setOnClickListener {
             val intent=Intent().putExtra(IE_DATA_TO_RETURN,"FINE THANK YOU.")
             setResult(Activity.RESULT_OK,intent)
@@ -46,17 +57,25 @@ class SecondActivity : AppCompatActivity() {
         }
 
     }
-
+    // Receiver for image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode== IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data?.data!=null)
         {
-            val image =data?.data
+            val image =data.data
             ivSelectedImage.setImageURI(image)
+
 
         }
     }
 
+
+
+
+
+
+
+/*
     override fun onStart() {
         super.onStart()
         Toast.makeText(this,"onStart invoked from Second",Toast.LENGTH_SHORT).show()
@@ -86,4 +105,6 @@ class SecondActivity : AppCompatActivity() {
         super.onRestart()
         Toast.makeText(this,"onRestart invoked Second", Toast.LENGTH_SHORT).show()
     }
+
+ */
 }
